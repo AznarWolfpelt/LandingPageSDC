@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+</head>
+<body>
+    <div style="width: 1440px; height: 1024px; position: relative">
+        <img style="width: 1440px; height: 1054px; left: 0px; top: -30px; position: absolute" src="Fondo.png" />
+        <div style="width: 593px; height: 72px; left: 423px; top: 137px; position: absolute; text-align: center; color: white; font-size: 48px; font-family: Yatra One; font-weight: 400; line-height: 72px; word-wrap: break-word">Mercancía</div>
+        <div style="width: 500px; height: 0px; left: 474px; top: 209px; position: absolute; border: 4px white solid"></div>
+        <div style="width: 1394px; height: 1342px; left: 23px; top: 221px; position: absolute; background: #140D03">
+          <!-- Sección de la izquierda (tarjeta, dirección y comentario) -->
+          <div style="width: 172px; height: 59px; left: 82px; top: 159px; position: absolute; color: #E0D9C1; font-size: 24px; font-family: Inter; font-weight: 600; word-wrap: break-word">Envío</div>
+          <div style="width: 423px; height: 59px; left: 82px; top: 210px; position: absolute; color: white; font-size: 20px; font-family: Inter; font-weight: 400; word-wrap: break-word">Calle Simón Bolívar y Avenida Girón-Pasaje</div>
+          <div style="width: 172px; height: 58px; left: 82px; top: 287px; position: absolute; color: #E0D9C1; font-size: 24px; font-family: Inter; font-weight: 600; word-wrap: break-word">Pago</div>
+          <div style="width: 298px; height: 76px; left: 82px; top: 346px; position: absolute; background: #D9D9D9">
+            <img style="width: 61px; height: 47px; left: 20px; top: 15px; position: absolute" src="Visa.png" />
+            <div style="width: 154px; height: 46px; left: 100px; top: 15px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 600; word-wrap: break-word">.... .... .... ....</div>
+          </div>
+          <div style="width: 172px; height: 57px; left: 82px; top: 440px; position: absolute; color: #E0D9C1; font-size: 24px; font-family: Inter; font-weight: 600; word-wrap: break-word">Comentario</div>
+          <div style="width: 472px; height: 208px; left: 82px; top: 500px; position: absolute; background: #D9D9D9"></div>
+
+          <!-- Sección del resumen del carrito -->
+          <div id="resumen-carrito" style="position: absolute; left: 758px; top: 145px;">
+              <!-- Aquí se mostrarán los productos dinámicamente -->
+          </div>
+
+          <!-- Total y botón de confirmar -->
+          <div style="width: 558px; height: 33px; left: 782px; top: 884px; position: absolute">
+            <div style="width: 153px; height: 25px; left: 0px; top: 0px; position: absolute; color: #E0D9C1; font-size: 24px; font-family: Inter; font-weight: 600; word-wrap: break-word">TOTAL</div>
+            <div id="total-pagar" style="width: 109px; height: 30px; left: 449px; top: 3px; position: absolute; color: white; font-size: 24px; font-family: Inter; font-weight: 700; word-wrap: break-word">0</div>
+            <div style="width: 32px; height: 27px; left: 416px; top: 4px; position: absolute; color: white; font-size: 20px; font-family: Inter; font-weight: 700; word-wrap: break-word">$</div>
+          </div>
+
+          <!-- Botón de Confirmar Orden -->
+          <div style="width: 204px; height: 46px; left: 1082px; top: 884px; position: absolute; background: #E0D9C1; border-radius: 16px">
+            <div style="width: 204px; height: 46px; left: 0px; top: 0px; position: absolute; background: #E0D9C1; border-radius: 8px"></div>
+            <div onclick="confirmarOrden()" style="width: 204px; height: 23px; left: 0px; top: 11.50px; position: absolute; text-align: center; color: #140D03; font-size: 20px; font-family: Inter; font-weight: 600; word-wrap: break-word; cursor: pointer;">Confirmar Orden</div>
+          </div>
+
+          <!-- Botón de Vaciar Carrito -->
+          <div style="width: 204px; height: 46px; left: 1082px; top: 940px; position: absolute; background: white; border-radius: 16px">
+            <div style="width: 204px; height: 46px; left: 0px; top: 0px; position: absolute; background: white; border-radius: 8px"></div>
+            <div onclick="vaciarCarrito()" style="width: 204px; height: 23px; left: 0px; top: 11.50px; position: absolute; text-align: center; color: black; font-size: 20px; font-family: Inter; font-weight: 600; word-wrap: break-word; cursor: pointer;">Vaciar Carrito</div>
+          </div>
+        </div>
+    </div>
+
+    <script>
+        // Obtener el carrito y el precio total desde localStorage
+        let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+        let precioTotal = localStorage.getItem("precioTotal") || 0;
+
+        // Mostrar el resumen de la compra
+        let resumenCarrito = document.getElementById("resumen-carrito");
+        let topPosition = 145; // Posición inicial para el primer producto
+
+        carrito.forEach((producto, index) => {
+            resumenCarrito.innerHTML += `
+                <div style="width: 549.95px; height: 93.95px; left: 0px; top: ${topPosition}px; position: absolute; background: #D9D9D9">
+                    <div style="width: 222.48px; height: 33.23px; left: 50px; top: 5.73px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 600; word-wrap: break-word">${producto.nombre}</div>
+                    <div style="width: 77.49px; height: 30.93px; left: 472.35px; top: 51.56px; position: absolute; color: #2D2105; font-size: 24px; font-family: Inter; font-weight: 500; word-wrap: break-word">${producto.precio * producto.unidades}</div>
+                    <div style="width: 42.50px; height: 41.25px; left: 50px; top: 52.70px; position: absolute; color: #2D2105; font-size: 24px; font-family: Inter; font-weight: 500; word-wrap: break-word">${producto.unidades}</div>
+                    <div style="width: 31.25px; height: 27.50px; left: 441.11px; top: 56.14px; position: absolute; color: #2D2105; font-size: 20px; font-family: Inter; font-weight: 500; word-wrap: break-word">$</div>
+                    <div style="width: 114.99px; height: 27.50px; left: 92.49px; top: 56.14px; position: absolute; color: #2D2105; font-size: 20px; font-family: Inter; font-weight: 500; word-wrap: break-word">Unidades</div>
+                </div>
+            `;
+            topPosition += 118; // Aumentar la posición para el siguiente producto
+        });
+
+        // Mostrar el precio total
+        document.getElementById("total-pagar").innerText = precioTotal;
+
+        // Función para confirmar la orden
+        function confirmarOrden() {
+            alert("¡Compra realizada con éxito!");
+            localStorage.removeItem("carrito");
+            localStorage.removeItem("precioTotal");
+            window.location.href = "index.html"; // Redirigir a la página principal
+        }
+
+        // Función para vaciar el carrito
+        function vaciarCarrito() {
+            alert("El carrito se ha vaciado correctamente.");
+            localStorage.removeItem("carrito");
+            localStorage.removeItem("precioTotal");
+            window.location.href = "index.html"; // Redirigir a la página principal
+        }
+    </script>
+</body>
+</html>

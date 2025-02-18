@@ -2,9 +2,9 @@ let productos = [
     { id: 1, nombre: "Camiseta", precio: 12, stock: 10 },
     { id: 2, nombre: "Zapatos", precio: 8, stock: 12 },
     { id: 3, nombre: "Gorra", precio: 2, stock: 8 },
-    { id: 4, nombre: "Cuchillo de obsidiana", precio: 25, stock: Infinity },
-    { id: 5, nombre: "Escudo con forma de pizza", precio: 5, stock: Infinity },
-    { id: 6, nombre: "Monedas", precio: 1, stock: Infinity },
+    { id: 4, nombre: "Cuchillo obsidiana", precio: 25, stock: Infinity },
+    { id: 5, nombre: "Escudo de pizza", precio: 5, stock: Infinity },
+    { id: 6, nombre: "Monedas x10", precio: 1, stock: Infinity },
 ];
 
 // Recuperar el carrito desde localStorage
